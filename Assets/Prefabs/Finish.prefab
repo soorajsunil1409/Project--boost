@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7314868370771649665}
   m_Layer: 0
   m_Name: Finish
-  m_TagString: Friendly
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7314868370771649664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 32.65, y: 0, z: 0}
-  m_LocalScale: {x: 3.5, y: 1, z: 3.411}
+  m_LocalScale: {x: 7.0420003, y: 1.2677, z: 6.6828313}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: feca6450880328c40aa3dbb36d96dd1c, type: 2}
+  - {fileID: 2100000, guid: f8e6d56e2cf3bfd4f89cec0faae11e6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

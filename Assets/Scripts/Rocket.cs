@@ -32,6 +32,9 @@ public class Rocket : MonoBehaviour
             case "Friendly":
                 print("OK");
                 break;
+            case "Finish":
+                print("You Won!");
+                break;
             default:
                 print("Dead");
                 break;
