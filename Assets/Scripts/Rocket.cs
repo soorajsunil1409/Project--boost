@@ -7,6 +7,13 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float mainThrust = 100f;
     [SerializeField] float rcsThrust = 200f;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip success;
+    [SerializeField] AudioClip death;
+
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem successParticles;
+    [SerializeField] ParticleSystem deathParticles;
 
     Rigidbody rigidbody;
     AudioSource audioSource;
@@ -26,8 +33,8 @@ public class Rocket : MonoBehaviour
     {
         if (state == State.Alive)
         {
-            Thrust();
-            Rotate();
+            RespondToThrustInput();
+            RespondToRotateInput();
         }
     }
 
@@ -41,15 +48,30 @@ public class Rocket : MonoBehaviour
             case "Friendly":
                 break;
             case "Finish":
-                print("You Won!");
-                Invoke("LoadNextScene", 2f);
+                StartSuccessSequence();
                 break;
             default:
-                print("Hit something deadly");
-                state = State.Dying;
-                Invoke("LoadFirstLevel", 2f);
+                StartDeathSequence();
                 break;
         }
+    }
+
+    private void StartSuccessSequence()
+    {
+        state = State.Transcending;
+        audioSource.Stop();
+        audioSource.PlayOneShot(success);
+        successParticles.Play();
+        Invoke("LoadNextScene", 2f);
+    }
+
+    private void StartDeathSequence()
+    {
+        state = State.Dying;
+        audioSource.Stop();
+        audioSource.PlayOneShot(death);
+        deathParticles.Play();
+        Invoke("LoadFirstLevel", 2f);
     }
 
     private void LoadNextScene()
@@ -62,27 +84,34 @@ public class Rocket : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    private void Thrust()
+    private void RespondToThrustInput()
     {
         rigidbody.freezeRotation = true;
 
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidbody.AddRelativeForce(Vector3.up * mainThrust);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-
+            ApplyThrust();
         }
         else
         {
             audioSource.Stop();
+            mainEngineParticles.Stop();
         }
 
         rigidbody.freezeRotation = false;
     }
-    private void Rotate()
+
+    private void ApplyThrust()
+    {
+        rigidbody.AddRelativeForce(Vector3.up * mainThrust);
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(mainEngine);
+        }
+        mainEngineParticles.Play();
+    }
+
+    private void RespondToRotateInput()
     {
         float rotationThisFrame = rcsThrust * Time.deltaTime;
 
